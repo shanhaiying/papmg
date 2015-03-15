@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}PAPMG - 考试题库管理系统{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>欢迎使用PAPMG题库管理系统!</h1>
+    <h3>现在是北京时间：{{ current_time | format_datatime}}</h3>
+</div>
+
+<div class="question-tabs">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{{ url_for('.all_questions') }}">所有题目</a></li>
+        <li><a href="#">单选题</a></li>
+        <li><a href="#">多选题</a></li>
+        <li><a href="#">判断题</a></li>
+        <li><a href="#">填空题</a></li>
+        <li><a href="#">问答题</a></li>
+    </ul>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <tr>
+                <th>序号</th>
+                <th>所属学科</th>
+                <th>题目类型</th>
+                <th>难度系数</th>
+                <th>问题描述</th>
+                <th>参考答案</th>
+                <th>操作</th>
+            </tr>
+            {% for question in questions %}
+            <tr class="{{ loop.cycle('info', 'success') }}">
+                <td>{{ loop.index}}</td>
+                <td>{{ question.subject | get_cn_name }}</td>
+                <td>{{ question.qtype | get_cn_name }}</td>
+                <td>{{ question.difficulty | get_cn_name }}</td>
+                <td>{{ question.question }}</td>
+                <td>{{ question.answer }}</td>
+                <td>
+                    <a href="#">编辑</a>
+                    <a href="#">删除</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
